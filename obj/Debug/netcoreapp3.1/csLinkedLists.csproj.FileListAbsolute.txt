@@ -1,0 +1,13 @@
+C:\Users\IscG\Documents\Programming\csLinkedLists\bin\Debug\netcoreapp3.1\csLinkedLists.exe
+C:\Users\IscG\Documents\Programming\csLinkedLists\bin\Debug\netcoreapp3.1\csLinkedLists.deps.json
+C:\Users\IscG\Documents\Programming\csLinkedLists\bin\Debug\netcoreapp3.1\csLinkedLists.runtimeconfig.json
+C:\Users\IscG\Documents\Programming\csLinkedLists\bin\Debug\netcoreapp3.1\csLinkedLists.runtimeconfig.dev.json
+C:\Users\IscG\Documents\Programming\csLinkedLists\bin\Debug\netcoreapp3.1\csLinkedLists.dll
+C:\Users\IscG\Documents\Programming\csLinkedLists\bin\Debug\netcoreapp3.1\csLinkedLists.pdb
+C:\Users\IscG\Documents\Programming\csLinkedLists\obj\Debug\netcoreapp3.1\csLinkedLists.csprojAssemblyReference.cache
+C:\Users\IscG\Documents\Programming\csLinkedLists\obj\Debug\netcoreapp3.1\csLinkedLists.AssemblyInfoInputs.cache
+C:\Users\IscG\Documents\Programming\csLinkedLists\obj\Debug\netcoreapp3.1\csLinkedLists.AssemblyInfo.cs
+C:\Users\IscG\Documents\Programming\csLinkedLists\obj\Debug\netcoreapp3.1\csLinkedLists.csproj.CoreCompileInputs.cache
+C:\Users\IscG\Documents\Programming\csLinkedLists\obj\Debug\netcoreapp3.1\csLinkedLists.dll
+C:\Users\IscG\Documents\Programming\csLinkedLists\obj\Debug\netcoreapp3.1\csLinkedLists.pdb
+C:\Users\IscG\Documents\Programming\csLinkedLists\obj\Debug\netcoreapp3.1\csLinkedLists.genruntimeconfig.cache
