@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "bv2a1+3CiNnSgyTufkaGTcYpMG+5aPrZrhNpBNh82wpLc3y+3hFucSTEVxf2hHyEe2z8j67JOqqnsvSNRnTUPg==",
+  "dgSpecHash": "BiRTp+2p/t+60eC6O0PKPRANUaK4Ua7Hdjd0dx1sJDRsnJKX1+J+1B/UXZVemZotVpYUQQNh5HAiFHiks3iK6Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\IscG\\Documents\\Programming\\csLinkedLists\\csLinkedLists.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "E:\\Programming\\Small\\schoolProgramming\\csLists\\csLinkedLists.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\IscG\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.2\\microsoft.aspnetcore.app.ref.3.1.2.nupkg.sha512"
+  ],
   "logs": []
 }

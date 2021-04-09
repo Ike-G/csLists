@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace csLinkedLists
 {
@@ -10,7 +11,13 @@ namespace csLinkedLists
         }
 
         static void displayIntList(List<int> l) {
-            for (int i = 0; i < l.Length(); i++) {
+            for (int i = 0; i < l.Length; i++) {
+                Console.WriteLine($"{i}: {l[i]}");
+            }
+        }
+
+        static void displayIntArrayList(ArrayList<int> l) {
+            for (int i = 0; i < l.Length; i++) {
                 Console.WriteLine($"{i}: {l[i]}");
             }
         }
@@ -20,26 +27,27 @@ namespace csLinkedLists
             // 2. Remove values 0, 2, 7, 4, and 5 - Expectation [1, 4, 16, 25, 49]
             // 3. Append 100 values as 2*n+1
             // 4. Set values 0, 5, 57, and 104 by key to 0
-            List<int> testL = new List<int>();
+            ArrayList<int> testL = new ArrayList<int>(105);
             int[] removal = new int[] {0, 2, 7, 4, 5};
 
             Console.WriteLine("Test 1: ");
             for (int i = 0; i < 10; i++) {
-                testL.append1((int)Math.Pow(i,2));
+                testL.append((int)Math.Pow(i,2));
             }
-            displayIntList(testL);
+            // testL.stateDump();
+            displayIntArrayList(testL);
 
             Console.WriteLine("Test 2: ");
             for (int i = 0; i < 5; i++) {
-                testL.remove(removal[i]);
+                testL.pop(removal[i]);
             }
-            displayIntList(testL);
+            displayIntArrayList(testL);
 
             Console.WriteLine("Test 3: ");
             for (int i = 0; i < 100; i++) {
-                testL.append1(2*i+1);
+                testL.append(2*i+1);
             }
-            displayIntList(testL);
+            displayIntArrayList(testL);
 
             Console.WriteLine("Test 4: ");
             int[] arrayClone = testL.toArray();
@@ -51,11 +59,11 @@ namespace csLinkedLists
             testL[57] = 0;
             arrayClone[104] = 0;
             testL[104] = 0;
-            for (int i = 0; i < testL.Length(); i++) {
+            for (int i = 0; i < testL.Length; i++) {
                 if (testL[i] != arrayClone[i]) 
                     Console.WriteLine($"Failure at {i}");
             }
-            displayIntList(testL);
+            displayIntArrayList(testL);
         }
     }
 
@@ -63,6 +71,8 @@ namespace csLinkedLists
         private Node startNode; 
         private Node endNode;
         private int _length;
+
+        public int Length { get { return _length; } }
 
         public List() {
             startNode = new Node();
@@ -99,17 +109,20 @@ namespace csLinkedLists
             _length++;
         }
 
-        public void remove(int k) {
+        public T pop(int k) {
             // Get the node prior to k that needs to have its pointer value remapped. If k == 0 then this is the startNode. 
-            if (k == 0) 
+            T val;
+            if (k == 0) {
+                val = startNode.getVal();
                 startNode = nthNode(1);
-            else 
-                nthNode(k-1).setPointer(nthNode(k+1));
+            }
+            else {
+                Node node = nthNode(k-1);
+                val = node.nextNode().getVal();
+                node.setPointer(node.nextNode().nextNode());
+            }
             _length--;
-        }
-
-        public int Length() {
-            return _length;
+            return val;
         }
 
         private Node nthNode(int n) {
@@ -127,10 +140,6 @@ namespace csLinkedLists
             }
             return newArray;
         }
-
-        public int binarySearch() {
-            int[] arr = toArray();
-
 
         class Node { 
             private Node _nextNode; 
@@ -176,45 +185,123 @@ namespace csLinkedLists
     }
     
     class ArrayList<T> {
-        int maxSize = 256;
+        int maxSize;
         T[] values;
         int[] pointers; 
-        int startPointer; 
+        bool[] unused;
+        int startPointer; // Specifies the location of the start
+        int endPointer; // Specifies the location of the end 
+        int _length;
+
+        public int Length { get { return _length; } }
 
         public T this[int k] {
             get { 
+                if (k >= _length) 
+                    throw new IndexOutOfRangeException();
                 int current = startPointer; 
                 for (int i = 0; i < k; i++) {
                     current = pointers[current];
                 }
                 return values[current];
             }
+            set {  
+                if (k >= _length) 
+                    throw new IndexOutOfRangeException();
+                int current = startPointer;
+                for (int i = 0; i < k; i++) {
+                    current = pointers[current];
+                }
+                values[current] = value;
+            }
         }
 
-        public ArrayList<T>() {
+        public ArrayList(int ms = 256) {
+            maxSize = ms;
             values = new T[maxSize];
-            pointers = new int[maxSize] {-1};
+            pointers = Enumerable.Repeat(-1, maxSize).ToArray();
+            unused = Enumerable.Repeat(true, maxSize).ToArray();
             startPointer = 0; 
+            endPointer = 0;
+            _length = 0;
         }
 
+        public void append(T val) {
+            int current = endPointer;
+            try {
+                while (!unused[current++]); 
+                Console.WriteLine($"Current: {current}");
+            }
+            catch (IndexOutOfRangeException) {
+                current = 0;
+                try {
+                    while (!unused[current++] && current < pointers[endPointer]);
+                } catch (IndexOutOfRangeException) {
+                    Console.WriteLine("List out of space.");
+                    return;
+                }
+            }
+            values[--current] = val;
+            unused[current] = false;
+            pointers[endPointer] = current;
+            endPointer = current;
+            _length++;
+        }
 
-        public append(T value) {
+        public T pop(int key) {
+            T val;
             int current = startPointer;
-            while (pointers[current] != -1) {
+            if (key == 0) {
+                val = values[current];
+                unused[startPointer] = true;
+                startPointer = pointers[startPointer];
+                _length--; 
+                return val;
+            } else {
+                try {
+                    for (int i = 0; i < key-1; i++) {
+                        current = pointers[current];
+                    }
+                } catch (IndexOutOfRangeException) {
+                    throw new IndexOutOfRangeException($"Index {key} out of range.");
+                }
+                val = values[pointers[current]];
+                unused[pointers[current]] = true;
+                if (key == _length-1)
+                    endPointer = current;
+                else
+                    pointers[current] = pointers[pointers[current]];
+                _length--;
+                return val;
+            }
+        }
+
+        public T[] toArray() {
+            int current = startPointer;
+            T[] output = new T[_length];
+            for (int i = 0; i < _length; i++) {
+                output[i] = values[current];
                 current = pointers[current];
             }
-            values[current] = value;
+            return output;
         }
 
-        public remove(int key) {
-            int current = startPointer;
-            // Find the value at key-1
-            // Find the value at key+1 
-            // pointers[key-1] = key+1
-
-
-
-
-
-    
+        public void stateDump() {
+            Console.WriteLine("values: ");
+            for (int i = 0; i < maxSize; i++) {
+                Console.WriteLine(values[i]);
+            }
+            Console.WriteLine("pointers: ");
+            for (int i = 0; i < maxSize; i++) {
+                Console.WriteLine(pointers[i]);
+            }
+            Console.WriteLine("unused: ");
+            for (int i = 0; i < maxSize; i++) {
+                Console.WriteLine(unused[i]);
+            }
+            Console.WriteLine($"Start pointer: {startPointer}");
+            Console.WriteLine($"End pointer: {endPointer}");
+            Console.WriteLine(_length);
+        }
+    }
 }
