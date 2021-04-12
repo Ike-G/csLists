@@ -16,12 +16,6 @@ namespace csLinkedLists
             }
         }
 
-        static void displayIntArrayList(ArrayList<int> l) {
-            for (int i = 0; i < l.Length; i++) {
-                Console.WriteLine($"{i}: {l[i]}");
-            }
-        }
-
         static void testList() {
             // 1. Append 10 values as n^2 - Expectation [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
             // 2. Remove values 0, 2, 7, 4, and 5 - Expectation [1, 4, 16, 25, 49]
@@ -34,21 +28,14 @@ namespace csLinkedLists
             for (int i = 0; i < 10; i++) {
                 testL.append((int)Math.Pow(i,2));
             }
-            // testL.stateDump();
-            displayIntArrayList(testL);
-
             Console.WriteLine("Test 2: ");
             for (int i = 0; i < 5; i++) {
                 testL.pop(removal[i]);
             }
-            displayIntArrayList(testL);
-
             Console.WriteLine("Test 3: ");
             for (int i = 0; i < 100; i++) {
                 testL.append(2*i+1);
             }
-            displayIntArrayList(testL);
-
             Console.WriteLine("Test 4: ");
             int[] arrayClone = testL.toArray();
             arrayClone[0] = 0;
@@ -59,11 +46,41 @@ namespace csLinkedLists
             testL[57] = 0;
             arrayClone[104] = 0;
             testL[104] = 0;
+            bool failure = false;
             for (int i = 0; i < testL.Length; i++) {
-                if (testL[i] != arrayClone[i]) 
+                if (testL[i] != arrayClone[i]) { 
                     Console.WriteLine($"Failure at {i}");
+                    failure = true;
+                }
             }
-            displayIntArrayList(testL);
+            testL.display();
+            if (!failure) 
+                Console.WriteLine("Manipulation tests performed successfully.");
+            else 
+                Console.WriteLine("Tests failed.");
+
+            failure = false;
+            Random rnd = new Random();
+            for (int i = 0; i < 20; i++) {
+                int r = rnd.Next(1,80);
+                testL.append(r);
+            }
+            Console.WriteLine("Finished appending random values.");
+            testL.display();
+            testL.sort();
+            Console.WriteLine("Finished list sort.");
+            testL.display();
+            int lastVal = 0;
+            for (int i = 0; i < testL.Length; i++) {
+                if (lastVal > testL[i])
+                    failure = true;
+                lastVal = testL[i];
+            }
+
+            if (!failure) 
+                Console.WriteLine("Sort tests performed successfully.");
+            else 
+                Console.WriteLine("Tests failed.");
         }
     }
 
@@ -96,16 +113,9 @@ namespace csLinkedLists
             }
         }
 
-        // Method 1 - Recursively searches until end of list. Less data is stored in List, however it takes longer to modify.
-        public void append1(T value) {
+        public void append(T value) {
             Node current = nthNode(_length);
             current.setVal(value);
-            _length++;
-        }
-
-        public void append2(T value) { 
-            endNode.setVal(value); 
-            endNode = endNode.nextNode();
             _length++;
         }
 
@@ -139,6 +149,15 @@ namespace csLinkedLists
                 newArray[i] = this[i];
             }
             return newArray;
+        }
+
+        public void display() {
+            if (typeof(T) == typeof(int) || typeof(T) == typeof(string) 
+                    || typeof(T) == typeof(char)) {
+                for (int i = 0; i < _length; i++) {
+                    Console.WriteLine($"{i}: {this[i]}");
+                }
+            }
         }
 
         class Node { 
@@ -230,7 +249,6 @@ namespace csLinkedLists
             int current = endPointer;
             try {
                 while (!unused[current++]); 
-                Console.WriteLine($"Current: {current}");
             }
             catch (IndexOutOfRangeException) {
                 current = 0;
@@ -276,6 +294,65 @@ namespace csLinkedLists
             }
         }
 
+        private void swap(int l, int h) {
+            int current = startPointer;
+            for (int i = 0; i < l-2; i++) {
+                current = pointers[current];
+            }
+            int lp = current;
+            for (int i = l; i < h; i++) {
+                current = pointers[current];
+            }
+            int hp = current;
+            int t = pointers[lp];
+            pointers[lp] = pointers[hp];
+            pointers[hp] = t;
+        }
+            
+        public void sort() {
+            if (typeof(T) == typeof(int)) {
+                int[] stack = new int[_length]; // Stack for iterative implementation of commonly recursive algorithm
+                int top = -1; // Pointer for stack.
+                
+                // Range of current partition
+                int highBound = _length-1; 
+                int lowBound = 0;
+
+                stack[++top] = lowBound;
+                stack[++top] = highBound;
+                while (top >= 0) {
+                    // Pop from stack, then decrement pointer.
+                    highBound = stack[top--];
+                    lowBound = stack[top--];
+
+                    int x = (int)(object)this[highBound]; 
+                    int j = (lowBound - 1); // Follow pointer
+                    for (int i = lowBound; i <= highBound-1; i++) {
+                        // While i <= x, increment j (which is always 1 less than i), then swap the values at j and i
+                        // This does not get a perfect sort, however it is locally accurate.
+                        if ((int)(object)this[i] <= x) {
+                            j++;
+                            swap(j, i);
+                        }
+                    }
+                    swap(j+1, highBound);
+                    int pivot = j+1;
+
+                    if (pivot - 1 > lowBound) {
+                        stack[++top] = lowBound;
+                        stack[++top] = pivot - 1;
+                    }
+
+                    if (pivot + 1 < highBound) { 
+                        stack[++top] = pivot + 1;
+                        stack[++top] = highBound;
+                    }
+                }
+            } else {
+                throw new NotImplementedException();
+            }
+        }
+
         public T[] toArray() {
             int current = startPointer;
             T[] output = new T[_length];
@@ -284,6 +361,15 @@ namespace csLinkedLists
                 current = pointers[current];
             }
             return output;
+        }
+
+        public void display() {
+            if (typeof(T) == typeof(int) || typeof(T) == typeof(string) 
+                    || typeof(T) == typeof(char)) {
+                for (int i = 0; i < _length; i++) {
+                    Console.WriteLine($"{i}: {this[i]}");
+                }
+            }
         }
 
         public void stateDump() {

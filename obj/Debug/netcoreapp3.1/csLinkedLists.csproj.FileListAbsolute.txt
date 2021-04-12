@@ -24,3 +24,16 @@ E:\Programming\Small\schoolProgramming\csLists\obj\Debug\netcoreapp3.1\csLinkedL
 E:\Programming\Small\schoolProgramming\csLists\obj\Debug\netcoreapp3.1\csLinkedLists.dll
 E:\Programming\Small\schoolProgramming\csLists\obj\Debug\netcoreapp3.1\csLinkedLists.pdb
 E:\Programming\Small\schoolProgramming\csLists\obj\Debug\netcoreapp3.1\csLinkedLists.genruntimeconfig.cache
+C:\Users\IscG\Documents\Programming\schoolProgramming\csLinkedLists\obj\Debug\netcoreapp3.1\csLinkedLists.csprojAssemblyReference.cache
+C:\Users\IscG\Documents\Programming\schoolProgramming\csLinkedLists\obj\Debug\netcoreapp3.1\csLinkedLists.AssemblyInfoInputs.cache
+C:\Users\IscG\Documents\Programming\schoolProgramming\csLinkedLists\obj\Debug\netcoreapp3.1\csLinkedLists.AssemblyInfo.cs
+C:\Users\IscG\Documents\Programming\schoolProgramming\csLinkedLists\obj\Debug\netcoreapp3.1\csLinkedLists.csproj.CoreCompileInputs.cache
+C:\Users\IscG\Documents\Programming\schoolProgramming\csLinkedLists\obj\Debug\netcoreapp3.1\csLinkedLists.dll
+C:\Users\IscG\Documents\Programming\schoolProgramming\csLinkedLists\obj\Debug\netcoreapp3.1\csLinkedLists.pdb
+C:\Users\IscG\Documents\Programming\schoolProgramming\csLinkedLists\bin\Debug\netcoreapp3.1\csLinkedLists.exe
+C:\Users\IscG\Documents\Programming\schoolProgramming\csLinkedLists\bin\Debug\netcoreapp3.1\csLinkedLists.deps.json
+C:\Users\IscG\Documents\Programming\schoolProgramming\csLinkedLists\bin\Debug\netcoreapp3.1\csLinkedLists.runtimeconfig.json
+C:\Users\IscG\Documents\Programming\schoolProgramming\csLinkedLists\bin\Debug\netcoreapp3.1\csLinkedLists.runtimeconfig.dev.json
+C:\Users\IscG\Documents\Programming\schoolProgramming\csLinkedLists\bin\Debug\netcoreapp3.1\csLinkedLists.dll
+C:\Users\IscG\Documents\Programming\schoolProgramming\csLinkedLists\bin\Debug\netcoreapp3.1\csLinkedLists.pdb
+C:\Users\IscG\Documents\Programming\schoolProgramming\csLinkedLists\obj\Debug\netcoreapp3.1\csLinkedLists.genruntimeconfig.cache

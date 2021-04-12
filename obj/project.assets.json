@@ -13,21 +13,19 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Programming\\Small\\schoolProgramming\\csLists\\csLinkedLists.csproj",
+      "projectUniqueName": "C:\\Users\\IscG\\Documents\\Programming\\schoolProgramming\\csLinkedLists\\csLinkedLists.csproj",
       "projectName": "csLinkedLists",
-      "projectPath": "E:\\Programming\\Small\\schoolProgramming\\csLists\\csLinkedLists.csproj",
+      "projectPath": "C:\\Users\\IscG\\Documents\\Programming\\schoolProgramming\\csLinkedLists\\csLinkedLists.csproj",
       "packagesPath": "C:\\Users\\IscG\\.nuget\\packages\\",
-      "outputPath": "E:\\Programming\\Small\\schoolProgramming\\csLists\\obj\\",
+      "outputPath": "C:\\Users\\IscG\\Documents\\Programming\\schoolProgramming\\csLinkedLists\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\IscG\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\IscG\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -53,18 +51,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[3.1.2, 3.1.2]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
       }
     }
   }
