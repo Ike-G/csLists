@@ -8,8 +8,81 @@ namespace csLinkedLists
         static void Main(string[] args)
         {
             testList();
+            interaction();
         }
 
+        static void interaction() {
+            bool cont = true;
+            ArrayList<int> testList = new ArrayList<int>();
+            int ind; 
+            int val;
+            while (cont) {
+                testList.display();
+                Console.WriteLine("\nPerform action: \n'a' - append (Capitalise to disable prompts)\n'p' - pop (Capitalise to disable prompts)\n'r' - read\n'w' - write\n's' - sort list\n'd' - dump state\n'q' - quit\n");
+                string inp = Console.ReadLine();
+                switch (inp) {
+                    case "a":
+                        Console.Write("Enter value to append: ");
+                        val = Int32.Parse(Console.ReadLine());
+                        testList.append(val);
+                        break;
+                    case "A":
+                        bool appendMode = true;
+                        while (appendMode) {
+                            try {
+                                Console.Write("Enter value to append: ");
+                                val = Int32.Parse(Console.ReadLine());
+                                testList.append(val);
+                                testList.display();
+                            } catch (Exception) {
+                                appendMode = false;
+                            }
+                        }
+                        break;
+                    case "p":
+                        Console.Write("Enter index to pop: ");
+                        ind = Int16.Parse(Console.ReadLine());
+                        Console.WriteLine($"Returned {testList.pop(ind)}");
+                        break;
+                    case "P":
+                        bool popMode = true;
+                        while (popMode) {
+                            try {
+                                Console.Write("Enter value to append: ");
+                                val = Int32.Parse(Console.ReadLine());
+                                testList.append(val);
+                                testList.display();
+                            } catch (Exception) {
+                                popMode = false;
+                            }
+                        }
+                        break;
+                    case "r":
+                        Console.Write("Enter index to read: ");
+                        ind = Int16.Parse(Console.ReadLine());
+                        Console.WriteLine($"Returned {testList[ind]}");
+                        break;
+                    case "w":
+                        Console.Write("Enter index to change: ");
+                        ind = Int16.Parse(Console.ReadLine());
+                        Console.Write("Enter value: ");
+                        val = Int32.Parse(Console.ReadLine());
+                        testList[ind] = val;
+                        break;
+                    case "s":
+                        testList.sort();
+                        break;
+                    case "d":
+                        testList.stateDump();
+                        break;
+                    case "q":
+                        cont = false;
+                        break;
+                }
+            }
+        }
+
+        // Present only for node list
         static void displayIntList(List<int> l) {
             for (int i = 0; i < l.Length; i++) {
                 Console.WriteLine($"{i}: {l[i]}");
@@ -21,7 +94,7 @@ namespace csLinkedLists
             // 2. Remove values 0, 2, 7, 4, and 5 - Expectation [1, 4, 16, 25, 49]
             // 3. Append 100 values as 2*n+1
             // 4. Set values 0, 5, 57, and 104 by key to 0
-            ArrayList<int> testL = new ArrayList<int>(105);
+            ArrayList<int> testL = new ArrayList<int>(105); // Change type to List to check other class
             int[] removal = new int[] {0, 2, 7, 4, 5};
 
             Console.WriteLine("Test 1: ");
@@ -54,19 +127,6 @@ namespace csLinkedLists
                 }
             }
             testL.display();
-            if (!failure) 
-                Console.WriteLine("Manipulation tests performed successfully.");
-            else 
-                Console.WriteLine("Tests failed.");
-
-            failure = false;
-            Random rnd = new Random();
-            for (int i = 0; i < 20; i++) {
-                int r = rnd.Next(1,80);
-                testL.append(r);
-            }
-            Console.WriteLine("Finished appending random values.");
-            testL.display();
             testL.sort();
             Console.WriteLine("Finished list sort.");
             testL.display();
@@ -76,9 +136,8 @@ namespace csLinkedLists
                     failure = true;
                 lastVal = testL[i];
             }
-
             if (!failure) 
-                Console.WriteLine("Sort tests performed successfully.");
+                Console.WriteLine("Manipulation and sort tests performed successfully.");
             else 
                 Console.WriteLine("Tests failed.");
         }
@@ -217,7 +276,7 @@ namespace csLinkedLists
         public T this[int k] {
             get { 
                 if (k >= _length) 
-                    throw new IndexOutOfRangeException();
+                    throw new IndexOutOfRangeException("Index must be less than the length of the array.");
                 int current = startPointer; 
                 for (int i = 0; i < k; i++) {
                     current = pointers[current];
@@ -295,8 +354,14 @@ namespace csLinkedLists
         }
 
         private void swap(int l, int h) {
+            // Find the values
+            if (h < l) {
+                int tmp = h;
+                h = l;
+                l = tmp;
+            }
             int current = startPointer;
-            for (int i = 0; i < l-2; i++) {
+            for (int i = 0; i < l; i++) {
                 current = pointers[current];
             }
             int lp = current;
@@ -304,9 +369,9 @@ namespace csLinkedLists
                 current = pointers[current];
             }
             int hp = current;
-            int t = pointers[lp];
-            pointers[lp] = pointers[hp];
-            pointers[hp] = t;
+            T t = values[lp];
+            values[lp] = values[hp];
+            values[hp] = t;
         }
             
         public void sort() {
@@ -364,30 +429,40 @@ namespace csLinkedLists
         }
 
         public void display() {
-            if (typeof(T) == typeof(int) || typeof(T) == typeof(string) 
-                    || typeof(T) == typeof(char)) {
-                for (int i = 0; i < _length; i++) {
-                    Console.WriteLine($"{i}: {this[i]}");
+            if (typeof(T) == typeof(int) || typeof(T) == typeof(string) || typeof(T) == typeof(char)) {
+                string baseString = "[";
+                for (int i = 0; i < _length-1; i++) {
+                    baseString += $"{this[i]}, ";
                 }
+                baseString += $"{this[_length-1]}]";
+                Console.WriteLine(baseString);
             }
         }
 
         public void stateDump() {
-            Console.WriteLine("values: ");
-            for (int i = 0; i < maxSize; i++) {
-                Console.WriteLine(values[i]);
+            string valsString = "[";
+            for (int i = 0; i < maxSize-1; i++) {
+                valsString += $"{values[i]}, ";
             }
-            Console.WriteLine("pointers: ");
-            for (int i = 0; i < maxSize; i++) {
-                Console.WriteLine(pointers[i]);
+            valsString += $"{values[maxSize-1]}]";Console.WriteLine($"values: {valsString}");
+
+            string pointersStr = "[";
+            for (int i = 0; i < maxSize-1; i++) {
+                pointersStr += $"{pointers[i]}, ";
             }
-            Console.WriteLine("unused: ");
-            for (int i = 0; i < maxSize; i++) {
-                Console.WriteLine(unused[i]);
+            pointersStr += $"{pointers[maxSize-1]}]";
+            Console.WriteLine($"pointers: {pointersStr}");
+
+            string unusedStr = "[";
+            for (int i = 0; i < maxSize-1; i++) {
+                unusedStr += $"{unused[i]}, ";
             }
+            unusedStr += $"{unused[maxSize-1]}]";
+            Console.WriteLine($"unused: {unusedStr}");
+
             Console.WriteLine($"Start pointer: {startPointer}");
             Console.WriteLine($"End pointer: {endPointer}");
-            Console.WriteLine(_length);
+            Console.WriteLine($"Length: {_length}");
         }
     }
 }
