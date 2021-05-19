@@ -429,7 +429,8 @@ namespace csLinkedLists
         }
 
         public void display() {
-            if (typeof(T) == typeof(int) || typeof(T) == typeof(string) || typeof(T) == typeof(char)) {
+            if (typeof(T) == typeof(int) || typeof(T) == typeof(string)
+                    || typeof(T) == typeof(char)) {
                 string baseString = "[";
                 for (int i = 0; i < _length-1; i++) {
                     baseString += $"{this[i]}, ";
@@ -437,6 +438,20 @@ namespace csLinkedLists
                 baseString += $"{this[_length-1]}]";
                 Console.WriteLine(baseString);
             }
+        }
+
+        public void traverseIter() { 
+            for (int i = startPointer; i != endPointer; i = pointers[i]) {
+                Console.WriteLine(values[i]);
+            }
+            Console.WriteLine(values[endPointer]);
+        }
+
+        public void traverseRec(int ptr = startPointer) {
+            Console.WriteLine(values[ptr]);
+            if (ptr == endPointer)
+                return;
+            traverseRec(pointers[ptr]);
         }
 
         public void stateDump() {
